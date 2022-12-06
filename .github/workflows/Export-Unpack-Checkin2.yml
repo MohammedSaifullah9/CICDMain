@@ -29,7 +29,7 @@ Latest commit 1933cd5 4 hours ago
 @davidjenni@MohammedSaifullah9
 53 lines (46 sloc)  1.58 KB
 
-name: Export-Unpack-Checkin2
+name: Export-Unpack-Checkin2 action
 # Export solution from DEV environment
 #  unpack it and prepare, commit and push a git branch with the changes
 
