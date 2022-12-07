@@ -2,76 +2,61 @@ name: export-and-branch-solution
 # Export solution from DEV environment
 #  unpack it and prepare, commit and push a git branch with the changes
 
- 
-
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
- 
-
+    
 jobs:
   export-from-dev:
     runs-on: windows-latest
     env:
       RUNNER_DEBUG: 1
+ 
 
- 
-
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        lfs: true
-
-    - uses: Azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-      id: samp1
-    - uses: Azure/get-keyvault-secrets@v1
-      with: 
-        keyvault: 'MSgithubkeys'
-        secrets: 'environmenturl, user-name, password-secret' 
-      id: myGetSecretAction
-
- 
-
-    - name: who-am-i action
-      uses: microsoft/powerplatform-actions/who-am-i@v0
-      with:
-        environment-url: ${{steps.myGetSecretAction.outputs.environmenturl}}
-        user-name: ${{steps.myGetSecretAction.outputs.user-name}}
-        password-secret: ${{ steps.myGetSecretAction.outputs.password-secret }}
-
- 
-
-    - name: export-solution action
-      uses: microsoft/powerplatform-actions/export-solution@v0
-      with:
-        environment-url: ${{steps.myGetSecretAction.outputs.environmenturl}}
-        user-name: ${{steps.myGetSecretAction.outputs.user-name}}
-        password-secret: ${{ steps.myGetSecretAction.outputs.password-secret }}
-        solution-name: CICDGitHub
-        solution-output-file: out/exported/CICDGITHub.zip
-
- 
-
-    - name: unpack-solution action
-      uses: microsoft/powerplatform-actions/unpack-solution@v0
-      with:
-        solution-file: out/exported/CICDGITHub.zip
-        solution-folder: out/solutions/ALMLab
-        solution-type: 'Unmanaged'
-        overwrite-files: true
-
- 
-
-    - name: branch-solution, prepare it for a PullRequest
-      uses: microsoft/powerplatform-actions/branch-solution@v0
-      with:
-        solution-folder: out/solutions/ALMLab
-        solution-target-folder: solutions/ALMLab
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        allow-empty-commit: true
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+    - uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      id: samp1
+    - uses: Azure/get-keyvault-secrets@v1
+      with: 
+        keyvault: 'MSgithubkeys'
+        secrets: 'environmenturl, user-name, password-secret'  
+      id: myGetSecretAction
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@v0
+      with:
+        environment-url: 'https://orga13a6c11.crm.dynamics.com/'
+        user-name: ${{ steps.myGetSecretAction.outputs.user-name }}
+        password-secret: ${{ steps.myGetSecretAction.outputs.password-secret }}
+ 
+    - name: export-solution action
+      uses: microsoft/powerplatform-actions/export-solution@v0
+      with:
+        environment-url: 'https://orga13a6c11.crm.dynamics.com/'
+        user-name: ${{ steps.myGetSecretAction.outputs.user-name }}
+        password-secret: ${{ steps.myGetSecretAction.outputs.password-secret }}
+        solution-name: CICDGitHub
+        solution-output-file: out/exported/CICDGITHub.zip
+ 
+    - name: unpack-solution action
+      uses: microsoft/powerplatform-actions/unpack-solution@v0
+      with:
+        solution-file: out/exported/CICDGITHub.zip
+        solution-folder: out/solutions/ALMLab
+        solution-type: 'Unmanaged'
+        overwrite-files: true
+ 
+    - name: branch-solution, prepare it for a PullRequest
+      uses: microsoft/powerplatform-actions/branch-solution@v0
+      with:
+        solution-folder: out/solutions/ALMLab
+        solution-target-folder: solutions/ALMLab
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        allow-empty-commit: true
