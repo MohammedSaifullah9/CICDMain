@@ -33,7 +33,8 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1
       with: 
         keyvault: 'MSgithubkeys'
-        secrets: 'environmenturl, user-name, password-secret'  
+        secrets: 'environmenturl, user-name, password-secret' 
+      id: myGetSecretAction
 
  
 
