@@ -27,7 +27,7 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1
       with: 
         keyvault: 'MSgithubkeys'
-        secrets: 'environmenturl, user-name, password-secret'  
+        secrets: 'user-name, password-secret'  
       id: myGetSecretAction
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@v0
