@@ -33,4 +33,4 @@ jobs:
         environment-url: 'https://orga13a6c11.crm.dynamics.com/'
         user-name: 'admin@CRM063646.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
-        path	: CICDMain/CICDTest_1_0_0_1_managed.zip
+        path	: out/CICDMain/CICDTest_1_0_0_1_managed.zip
